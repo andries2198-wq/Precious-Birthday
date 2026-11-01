@@ -95,7 +95,6 @@ const win=document.getElementById('win');
 const preview=document.getElementById('preview');
 const celebration=document.getElementById('celebration');
 let fireworksFrame=null;
-let celebrationTimeout=null;
 let order=[],moves=0,seconds=0,clock=null,started=false,selected=null,dragIndex=null;
 const total=16;
 
@@ -103,7 +102,7 @@ function solved(){return order.every((v,i)=>v===i)}
 function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
 function startClock(){if(started)return;started=true;clock=setInterval(()=>{seconds++;timerEl.textContent=formatTime(seconds)},1000)}
 function stopClock(){clearInterval(clock);clock=null}
-function resetStats(){stopClock();clearTimeout(celebrationTimeout);celebrationTimeout=null;started=false;seconds=0;moves=0;selected=null;movesEl.textContent='0';timerEl.textContent='00:00';win.style.display='none';preview.style.display='none';closeCelebration()}
+function resetStats(){stopClock();started=false;seconds=0;moves=0;selected=null;movesEl.textContent='0';timerEl.textContent='00:00';win.style.display='none';preview.style.display='none';closeCelebration()}
 function render(){
   board.innerHTML='';
   order.forEach((piece,index)=>{
@@ -135,7 +134,7 @@ function swap(a,b){
   moves++;movesEl.textContent=moves;render();checkWin();
 }
 function checkWin(){
-  if(solved()){stopClock();win.style.display='block';preview.style.display='block';celebrationTimeout=setTimeout(()=>{showCelebration();},2000);}
+  if(solved()){stopClock();win.style.display='block';preview.style.display='block';showCelebration();}
 }
 function showCelebration(){
   celebration.classList.add('show');
